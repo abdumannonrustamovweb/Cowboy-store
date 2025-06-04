@@ -23,7 +23,7 @@ const Navbar = () => {
                             <NavLink className="nav-link" to="/about">About</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/contact">Contact</NavLink>
+                            <NavLink className="nav-link" to="/contact">Bizbilan bog'lanish</NavLink>
                         </li>
                     </ul>
                     <div className="buttons text-center">

@@ -41,11 +41,24 @@ const Checkout = () => {
       const phone = document.getElementById("email").value;
       const region = document.getElementById("country").value;
 
-      const products = state
-        .map(
-          (item) => `🛒 ${item.title} x${item.qty} = $${item.price * item.qty}`
-        )
-        .join("\n");
+      const token = "8184747388:AAHpPDmWBVCVhCbAWTSxpsk_KE9YcV_4AnM";
+      const chat_id = "@cowboy_utensils";
+
+      for (const item of state) {
+        const caption = ` ${item.title} x${item.qty} = $${item.price * item.qty}`;
+
+        await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            chat_id,
+            photo: item.image,
+            caption,
+          }),
+        });
+      }
 
       const message = `
 📦 Yangi Zakaz:
@@ -53,17 +66,10 @@ const Checkout = () => {
 📞 Tel: ${phone}
 📍 Hudud: ${region}
 
-🧾 Mahsulotlar:
-${products}
-
-💰 Jami: $${Math.round(subtotal + shipping)}
+💰 Umumiy: $${Math.round(subtotal + shipping)}
 `;
 
-      const token = "8184747388:AAHpPDmWBVCVhCbAWTSxpsk_KE9YcV_4AnM";
-      const chat_id = "@cowboy_utensils";
-      const url = `https://api.telegram.org/bot${token}/sendMessage`;
-
-      await fetch(url, {
+      await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -165,9 +171,7 @@ ${products}
                         <option value="Namangan">Namangan</option>
                         <option value="Navoiy">Navoiy</option>
                         <option value="Qashqadaryo">Qashqadaryo</option>
-                        <option value="Qoraqalpog'iston">
-                          Qoraqalpog'iston
-                        </option>
+                        <option value="Qoraqalpog'iston">Qoraqalpog'iston</option>
                         <option value="Samarqand">Samarqand</option>
                         <option value="Sirdaryo">Sirdaryo</option>
                         <option value="Surxondaryo">Surxondaryo</option>
