@@ -60,7 +60,7 @@ ${products}
 `;
 
       const token = "8184747388:AAHpPDmWBVCVhCbAWTSxpsk_KE9YcV_4AnM";
-      const chat_id = "6650662269";
+      const chat_id = "@cowboy_utensils";
       const url = `https://api.telegram.org/bot${token}/sendMessage`;
 
       await fetch(url, {
