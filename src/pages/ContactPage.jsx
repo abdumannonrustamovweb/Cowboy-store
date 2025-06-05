@@ -1,4 +1,3 @@
-import React from "react";
 import { Footer, Navbar } from "../components";
 const ContactPage = () => {
   return (
@@ -7,9 +6,8 @@ const ContactPage = () => {
       <div className="container my-3 py-3">
         <h1 className="text-center">Aloqa xizmatlari</h1>
         <hr />
-        <div class="row my-4 h-100">
-          <div className="flex gap-8">
-            <a
+        <div>
+            <a 
               href="https://www.instagram.com/tulpor_osiyo?igsh=b2prbmtpa2Zlamoy&utm_source=qr"
               target="_blank"
               rel="noopener noreferrer"
@@ -21,12 +19,12 @@ const ContactPage = () => {
               />
             </a>
              <a
-              href="https://www.instagram.com/tulpor_osiyo?igsh=b2prbmtpa2Zlamoy&utm_source=qr"
+              href="+998 90 858 06 85"
               target="_blank"
               rel="noopener noreferrer"
             >
               <img
-                src="/instagram.png"
+                src="/telegram.png"
                 alt="Instagram"
                 style={{ width: "70px", height: "70px" }}
               />
@@ -37,23 +35,22 @@ const ContactPage = () => {
               rel="noopener noreferrer"
             >
               <img
-                src="/instagram.png"
+                src="/whatsapp.png"
                 alt="Instagram"
                 style={{ width: "70px", height: "70px" }}
               />
             </a>
              <a
-              href="https://www.instagram.com/tulpor_osiyo?igsh=b2prbmtpa2Zlamoy&utm_source=qr"
+              href="https://www.facebook.com/share/1FUzu7hf8E/?mibextid=wwXIfr"
               target="_blank"
               rel="noopener noreferrer"
             >
               <img
-                src="/instagram.png"
+                src="/facebook.png"
                 alt="Instagram"
                 style={{ width: "70px", height: "70px" }}
               />
             </a>
-          </div>
         </div>
       </div>
       <Footer />

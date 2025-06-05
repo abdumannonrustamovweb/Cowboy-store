@@ -13,11 +13,14 @@ const Home = () => {
           />
           <div className="card-img-overlay d-flex align-items-center">
             <div className="container">
-              <h5 className="card-title fs-1 text fw-lighter">New Season Arrivals</h5>
+              <h5 className="card-title fs-1 text fw-lighter">Cowboy </h5>
               <p className="card-text fs-5 d-none d-sm-block ">
-                This is a wider card with supporting text below as a natural
-                lead-in to additional content. This content is a little bit
-                longer.
+                🇺🇿 Tulpor Osiyo — Ot anjomlari markazi Sifatli egarlari,
+                juganlar va chavandozlik mahsulotlarini biz bilan oson zakaz
+                qiling! Mahalliy ishlab chiqarish, milliy uslub va mustahkam
+                materiallar — barchasi siz va tulporingiz uchun. <br />🎯 Buyurtma
+                asosida tikamiz <br />🚚 Tez yetkazib beramiz <br />🤝 Har bir mijozga
+                individual yondashuv
               </p>
             </div>
           </div>

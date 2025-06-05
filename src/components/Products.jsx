@@ -79,32 +79,21 @@ const Products = () => {
             className="btn btn-outline-dark btn-sm m-2"
             onClick={() => setFilter(data)}
           >
-            All
+            Hammasi
           </button>
           <button
             className="btn btn-outline-dark btn-sm m-2"
             onClick={() => filterProduct("men's clothing")}
           >
-            Men's Clothing
+            Egarlar
           </button>
           <button
             className="btn btn-outline-dark btn-sm m-2"
             onClick={() => filterProduct("women's clothing")}
           >
-            Women's Clothing
+            Juganlar
           </button>
-          <button
-            className="btn btn-outline-dark btn-sm m-2"
-            onClick={() => filterProduct("jewelery")}
-          >
-            Jewelery
-          </button>
-          <button
-            className="btn btn-outline-dark btn-sm m-2"
-            onClick={() => filterProduct("electronics")}
-          >
-            Electronics
-          </button>
+         
         </div>
 
         {filter.map((product) => {
