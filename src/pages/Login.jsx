@@ -4,40 +4,46 @@ import { useNavigate } from "react-router-dom";
 
 const AdminPanel = () => {
   const navigate = useNavigate();
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
+  // const [login, setLogin] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
   const [products, setProducts] = useState([]);
-  const [activeTab, setActiveTab] = useState("products");
+  const [activeTab, setActiveTab] = useState("add");
   const [showSuccess, setShowSuccess] = useState(false);
 
-  // Load products from localStorage on component mount
+  const [formData, setFormData] = useState({
+    "title": "test product",
+    "price": 456,
+    "description": "oipqwdo iqjwdo qwdjojioj dioqwjd ioq"
+  })
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })  
+  }
+
+
   useEffect(() => {
     const savedProducts = localStorage.getItem('adminProducts');
+
     if (savedProducts) {
       setProducts(JSON.parse(savedProducts));
     }
   }, []);
 
-  // Save products to localStorage whenever they change
+  
   useEffect(() => {
     localStorage.setItem('adminProducts', JSON.stringify(products));
   }, [products]);
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (login === "cowboy9834" && password === "cowboy_uz") {
-      setIsAuthenticated(true);
-      navigate("/admin");
-    } else {
-      alert("Login yoki parol noto'g'ri!");
-    }
-  };
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
-    setLogin("");
-    setPassword("");
+    // setIsAuthenticated(false);
+    // setLogin("");
+    // setPassword("");
+  
     navigate("/");
   };
 
@@ -131,7 +137,9 @@ const AdminPanel = () => {
                 <div className="col-md-6">
                   <label className="form-label">Mahsulot nomi</label>
                   <input 
-                    name="title" 
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
                     className="form-control" 
                     placeholder="Mahsulot nomi" 
                     required 
@@ -143,7 +151,9 @@ const AdminPanel = () => {
                     name="price"
                     type="number"
                     className="form-control"
+                    onChange={handleChange}
                     placeholder="Narxi"
+                    value={formData.price}
                     required
                   />
                 </div>
@@ -151,9 +161,11 @@ const AdminPanel = () => {
                   <label className="form-label">Rasm URL</label>
                   <input
                     name="image"
-                    type="url"
+                    type="file"
                     className="form-control"
                     placeholder="Rasm URL"
+                    accept="image/*"
+                    
                     required
                   />
                 </div>
@@ -162,7 +174,9 @@ const AdminPanel = () => {
                   <textarea
                     name="description"
                     className="form-control"
+                    onChange={handleChange}
                     placeholder="Tavsif"
+                    value={formData.description}
                     rows="3"
                     required
                   />
