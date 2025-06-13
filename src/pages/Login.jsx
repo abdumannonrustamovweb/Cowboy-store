@@ -4,61 +4,75 @@ import { useNavigate } from "react-router-dom";
 
 const AdminPanel = () => {
   const navigate = useNavigate();
-  
-  // const [login, setLogin] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
+
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const [products, setProducts] = useState([]);
   const [activeTab, setActiveTab] = useState("add");
   const [showSuccess, setShowSuccess] = useState(false);
 
   const [formData, setFormData] = useState({
-    "title": "test product",
-    "price": 456,
-    "description": "oipqwdo iqjwdo qwdjojioj dioqwjd ioq"
-  })
+    title: "",
+    price: "",
+    description: "",
+    image: ""
+  });
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })  
-  }
-
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   useEffect(() => {
-    const savedProducts = localStorage.getItem('adminProducts');
-
+    const savedProducts = localStorage.getItem("adminProducts");
     if (savedProducts) {
       setProducts(JSON.parse(savedProducts));
     }
+
+    const auth = localStorage.getItem("isAuthenticated");
+    if (auth === "true") {
+      setIsAuthenticated(true);
+    }
   }, []);
 
-  
   useEffect(() => {
-    localStorage.setItem('adminProducts', JSON.stringify(products));
+    localStorage.setItem("adminProducts", JSON.stringify(products));
   }, [products]);
 
+  useEffect(() => {
+    localStorage.setItem("isAuthenticated", isAuthenticated);
+  }, [isAuthenticated]);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (login === "cowboy" && password === "1234") {
+      setIsAuthenticated(true);
+      setLogin("");
+      setPassword("");
+    } else {
+      alert("Login yoki parol noto‘g‘ri!");
+    }
+  };
 
   const handleLogout = () => {
-    // setIsAuthenticated(false);
-    // setLogin("");
-    // setPassword("");
-  
+    setIsAuthenticated(false);
+    localStorage.removeItem("isAuthenticated");
     navigate("/");
   };
 
   const handleAddProduct = (e) => {
     e.preventDefault();
-    const form = e.target;
     const newProduct = {
       id: Date.now(),
-      title: form.title.value,
-      price: form.price.value,
-      image: form.image.value,
-      description: form.description.value,
+      title: formData.title,
+      price: formData.price,
+      image: formData.image,
+      description: formData.description
     };
     setProducts([...products, newProduct]);
-    form.reset();
+    setFormData({ title: "", price: "", description: "", image: "" });
     setActiveTab("products");
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);
@@ -75,24 +89,56 @@ const AdminPanel = () => {
     const newPrice = prompt("Mahsulot narxi:", product.price);
     const newImage = prompt("Mahsulot rasmi URL:", product.image);
     const newDesc = prompt("Mahsulot tavsifi:", product.description);
-    
+
     if (newTitle && newPrice && newImage && newDesc) {
       setProducts(
         products.map((p) =>
-          p.id === product.id 
-            ? { 
-                ...p, 
+          p.id === product.id
+            ? {
+                ...p,
                 title: newTitle,
                 price: newPrice,
                 image: newImage,
                 description: newDesc
-              } 
+              }
             : p
         )
       );
     }
   };
 
+  if (!isAuthenticated) {
+    return (
+      <div className="container my-5">
+        <h2>Admin Login</h2>
+        <form onSubmit={handleLogin}>
+          <div className="mb-3">
+            <label className="form-label">Login:</label>
+            <input
+              type="text"
+              className="form-control"
+              value={login}
+              onChange={(e) => setLogin(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Parol:</label>
+            <input
+              type="password"
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-primary w-100">
+            Kirish
+          </button>
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div className="container my-5">
@@ -104,31 +150,29 @@ const AdminPanel = () => {
       </div>
 
       {showSuccess && (
-        <div className="alert alert-success">
-          Mahsulot muvaffaqiyatli qo'shildi!
-        </div>
+        <div className="alert alert-success">Mahsulot muvaffaqiyatli qo'shildi!</div>
       )}
 
       <ul className="nav nav-tabs mb-4">
         <li className="nav-item">
           <button
-            className={`nav-link ${activeTab === 'products' ? 'active' : ''}`}
-            onClick={() => setActiveTab('products')}
+            className={`nav-link ${activeTab === "products" ? "active" : ""}`}
+            onClick={() => setActiveTab("products")}
           >
             Mahsulotlar
           </button>
         </li>
         <li className="nav-item">
           <button
-            className={`nav-link ${activeTab === 'add' ? 'active' : ''}`}
-            onClick={() => setActiveTab('add')}
+            className={`nav-link ${activeTab === "add" ? "active" : ""}`}
+            onClick={() => setActiveTab("add")}
           >
             Mahsulot Qo'shish
           </button>
         </li>
       </ul>
 
-      {activeTab === 'add' ? (
+      {activeTab === "add" ? (
         <div className="card shadow mb-4">
           <div className="card-body">
             <h4 className="card-title mb-4">Yangi Mahsulot</h4>
@@ -136,13 +180,13 @@ const AdminPanel = () => {
               <div className="row g-3">
                 <div className="col-md-6">
                   <label className="form-label">Mahsulot nomi</label>
-                  <input 
+                  <input
                     name="title"
                     value={formData.title}
                     onChange={handleChange}
-                    className="form-control" 
-                    placeholder="Mahsulot nomi" 
-                    required 
+                    className="form-control"
+                    placeholder="Mahsulot nomi"
+                    required
                   />
                 </div>
                 <div className="col-md-6">
@@ -161,11 +205,11 @@ const AdminPanel = () => {
                   <label className="form-label">Rasm URL</label>
                   <input
                     name="image"
-                    type="file"
+                    type="text"
                     className="form-control"
+                    onChange={handleChange}
                     placeholder="Rasm URL"
-                    accept="image/*"
-                    
+                    value={formData.image}
                     required
                   />
                 </div>
@@ -195,10 +239,7 @@ const AdminPanel = () => {
           {products.length === 0 ? (
             <div className="col-12 text-center py-5">
               <h4>Mahsulotlar topilmadi</h4>
-              <button 
-                className="btn btn-dark mt-3"
-                onClick={() => setActiveTab('add')}
-              >
+              <button className="btn btn-dark mt-3" onClick={() => setActiveTab("add")}>
                 Birinchi mahsulotingizni qo'shing
               </button>
             </div>
@@ -206,34 +247,28 @@ const AdminPanel = () => {
             products.map((product) => (
               <div key={product.id} className="col-md-4 mb-4">
                 <div className="card h-100 shadow">
-                  <img 
-                    src={product.image} 
-                    className="card-img-top p-3" 
-                    height="250" 
-                    style={{objectFit: 'contain'}}
-                    alt={product.title} 
+                  <img
+                    src={product.image}
+                    className="card-img-top p-3"
+                    height="250"
+                    style={{ objectFit: "contain" }}
+                    alt={product.title}
                   />
                   <div className="card-body">
                     <h5 className="card-title">{product.title}</h5>
                     <p className="card-text text-muted">
-                      {product.description.length > 100 
-                        ? `${product.description.substring(0, 100)}...` 
+                      {product.description.length > 100
+                        ? `${product.description.substring(0, 100)}...`
                         : product.description}
                     </p>
                     <p className="lead fw-bold">${product.price}</p>
                   </div>
                   <div className="card-footer bg-white">
                     <div className="d-flex justify-content-between">
-                      <button 
-                        onClick={() => handleEdit(product)} 
-                        className="btn btn-outline-warning"
-                      >
+                      <button onClick={() => handleEdit(product)} className="btn btn-outline-warning">
                         Tahrirlash
                       </button>
-                      <button 
-                        onClick={() => handleDelete(product.id)} 
-                        className="btn btn-outline-danger"
-                      >
+                      <button onClick={() => handleDelete(product.id)} className="btn btn-outline-danger">
                         O'chirish
                       </button>
                     </div>
